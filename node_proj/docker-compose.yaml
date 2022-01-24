@@ -1,0 +1,30 @@
+version: '3'
+services:
+        mysql_db:
+                image: mysql:5.7
+                container_name: mysql_app_cont
+                environment:
+                        - MYSQL_ROOT_PASSWORD=Raman
+                        - MYSQL_DATABASE=mydb
+                        - MYSQL_USER=raman
+                        - MYSQL_PASSWORD=raman
+                volumes:
+                        - db:/var/lib/mysql
+
+        node_app:
+                 depends_on:
+                         - mysql_db
+                 image: dev:0.4
+                 container_name: node_app_cont
+                 environment:
+                         - MYSQL_HOSTNAME=mysql_app_cont
+                         - MYSQL_DATABASE=mydb
+                         - MYSQL_USER=raman
+                         - MYSQL_PASSWORD=raman
+                 ports:
+                         - 49196:3000
+
+volumes:
+        db:
+
+
